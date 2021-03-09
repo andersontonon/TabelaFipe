@@ -1,0 +1,110 @@
+/**--------------------------Início Body--------------------------**/
+body {
+	background-color: #000;
+}
+/**--------------------------Fim Body-----------------------------**/
+
+
+/**--------------------------Inicio corpo Contato-------------------**/
+.corpo-contato {
+	background: #d4c9c9;
+  	width: 1200px;
+  	height: 500px;
+  	margin: auto;
+  	position: relative;
+  	margin-top: 3px;
+
+}
+.titulo-corpo-contato{
+	color: #ffffff;
+	font: 36px 'calibri';
+
+	margin-top: 3px;
+	text-align: center;
+	height: 60px;
+  	width: 100%;
+  	background: #00008B;  
+  	opacity: 0.8;
+  	margin: auto;
+}
+.formulario-contato {
+	font: 20px 'calibri';
+  	color: #5c5b5b;
+ 	background: #d4c9c9;
+  	margin: 0 auto;
+    width: 500px;
+	padding: 1em;
+    border-radius: 1em;
+    margin-top: 20px;
+}
+.formulario-contato div + div {
+    margin-top: 1em;
+}
+
+.text-contato {
+    
+    width: 300px;
+
+    justify-content: center;
+}
+.campo-contato{
+    
+    font: 20px 'calibri';
+    width: 500px;
+    height: 40px;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #00008B;
+    opacity: 0.8;
+}
+
+
+.div-botao-contato {
+	padding-left: 90px;   
+}
+.botao-contato{ 
+	font: 35px 'calibri';
+	color: #fff;
+	background-color: #00008B;
+   	margin-left: .5em;
+   	opacity: 0.8;
+    border-radius: 5px;
+}
+
+.botao-contato:hover { 
+	font: 35px 'calibri';
+	color: #fff;
+	background-color: #222222;
+   	margin-left: .5em;
+   	opacity: 0.8;
+    border-radius: 5px;
+}
+
+.texto-notificacao{
+  color: #00008B;
+  font: 22px 'calibri';
+  margin-top: 3px;
+  text-align: center;
+  height: 60px;
+    width: 100%;  
+    opacity: 0.8;
+    margin: auto;
+    font-weight: bolder;
+}
+
+/**--------------------------Fim Corpo Contato----------------------**/
+/**--------------------------Início Rodapé------------------------**/
+.rodape-total {
+	margin-top: 3px;
+}
+.rodape {
+	background: #222222;
+  	width: 1200px;
+  	margin: 0 auto;
+  	display: flex;
+  	flex-wrap: wrap;
+  	justify-content: space-around;
+  	align-items: center;
+}
+
+/**--------------------------Fim Rodapé---------------------------**/
