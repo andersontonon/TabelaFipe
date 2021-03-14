@@ -9,7 +9,7 @@ body {
 .corpo-contato {
 	background: #d4c9c9;
   	width: 1200px;
-  	height: 500px;
+  	height: 580px;
   	margin: auto;
   	position: relative;
   	margin-top: 3px;
@@ -32,19 +32,23 @@ body {
   	color: #5c5b5b;
  	background: #d4c9c9;
   	margin: 0 auto;
-    width: 500px;
+    width: 450px;
 	padding: 1em;
     border-radius: 1em;
     margin-top: 20px;
 }
-.formulario-contato div + div {
-    margin-top: 1em;
+.formulario-contato  {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .text-contato {
+  margin-top: 1em;
     
-    width: 300px;
-
+    width: 450px;
     justify-content: center;
 }
 .campo-contato{
@@ -58,9 +62,23 @@ body {
     opacity: 0.8;
 }
 
+.link-modal{
+  margin-top: 1em;
+  width: 160px;
+  background: #6C7A89;
+  color: #fff;
+    border:0;
+}
+.link-modal:hover{
+  margin-top: 1em;
+    width: 160px;
+  background: #363636;
+  color: #fff;
+  border:0;
 
+}
 .div-botao-contato {
-	padding-left: 90px;   
+	align-content: center;  
 }
 .botao-contato{ 
 	font: 35px 'calibri';
@@ -89,6 +107,58 @@ body {
     width: 100%;  
     opacity: 0.8;
     margin: auto;
+    font-weight: bolder;
+}
+
+.modal-content{
+  border: 0;
+
+}
+.modal-body{
+  display: table;
+  height: 100%;
+  width: 100%;
+    background-color: #87CEEB;
+}
+
+.modal-text-info{
+    position:relative;
+    border-width:2px;
+    width:200px;
+    float: left;
+    text-align: right;
+}
+.modal-text{
+    position: relative;
+    border-width:2px;
+    width: 360px;
+    left:0px;
+    float: right;
+    color: #363636;
+    font-weight: bolder;
+
+}
+.valor{
+  display: table;
+  height: 40px;
+  width: 100%;
+  color: #fff;
+  background-color: #1E90FF;
+}
+.modal-text-info-preco{
+    position:relative;
+
+    width:200px;
+    float: left;
+    text-align: right;
+
+}
+.modal-text-preco{
+    position: relative;
+  
+    width: 360px;
+    left:0px;
+    float: right;
     font-weight: bolder;
 }
 
