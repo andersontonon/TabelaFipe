@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Extraia objetos automagicamente de imagens</title>
+<title>PREÇO MÉDIO DE VEÍCULOS</title>
  <head>
   	<meta charset="utf-8">
+  	<META HTTP-EQUIV="REFRESH" CONTENT="0.5;URL=index.html">
   	<link rel="stylesheet" type="text/css" href="estiloProjetoweb2.css">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -12,115 +13,83 @@
 
 
 <script type="text/javascript">
-	var tipo;
-	var idNome;
-	var idModelo;
-	var ano;
+	var tipo, idNome, idModelo, ano;
 	
-	function escrever(btn){
-		if(document.getElementById("tipo").value == ""){
-			document.getElementById('texto-notificacao').innerHTML = "Campo não pode estar vazio!!!";
-
-		}
-	}
-
 	function tipoVeiculo(){
 		var tipos = document.getElementById('tipo').value;
-			const settings = {
-				"async": true,
-				"crossDomain": true,
-				"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas",
-				"method": "GET",
-			};
-			$.ajax(settings).done(function (response) {
-				console.log(response);
-				$("#item").empty();
-				$('#item').append(`<option ></option>`);
-				response.map(({nome,codigo}) => {
-		  			$('#item').append(`<option value='${codigo}'>${nome}</option>`);
+		const settings = {
+			"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas",
+			"method": "GET",
+		};
+		$.ajax(settings).done(function (response) {
+			console.log(response);
+			$("#item").empty();
+			$('#item').append(`<option ></option>`);
+			response.map(({nome,codigo}) => {
+	  			$('#item').append(`<option value='${codigo}'>${nome}</option>`);
 			});
 		});
-	
 	}
 
-	
 	function nomeVeiculo(){
 		var tipos = document.getElementById('tipo').value;
 		var idNome = document.getElementById('item').value;
 		const settings = {
-			"async": true,
-			"crossDomain": true,
 			"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas/"+idNome+"/modelos",
 			"method": "GET",
 		};
 		$.ajax(settings).done(function (response) {
 			console.log(response);
 			$("#veiculo").empty();
-		
-			console.log(response.modelos);
-
 			$('#veiculo').append(`<option ></option>`);
-
 			response.modelos.map(({codigo,nome}) => {
-		  			$('#veiculo').append(`<option value='${codigo}'>${nome}</option>`);
-				});
+		  		$('#veiculo').append(`<option value='${codigo}'>${nome}</option>`);
 			});
+		});
 	}
+
 	function anoVeiculo(){
 		var tipos = document.getElementById('tipo').value;
 		var idNome = document.getElementById('item').value;
 		var idModelo = document.getElementById('veiculo').value;
 		const settings = {
-			"async": true,
-			"crossDomain": true,
 			"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas/"+idNome+"/modelos/"+idModelo+"/anos",
 			"method": "GET",
 		};
 		$.ajax(settings).done(function (response) {
 			console.log(response);
 			$("#ano").empty();
-		
-			console.log(response);
-
 			$('#ano').append(`<option ></option>`);
-
 			response.map(({codigo,nome}) => {
-
-		  			$('#ano').append(`<option value='${codigo}'>${nome}</option>`);
-				});
+		  		$('#ano').append(`<option value='${codigo}'>${nome}</option>`);
 			});
+		});
 	}
 	function dadosVeiculo(){
 		if(document.getElementById("tipo").value == ""){
-
 			document.getElementById('texto-notificacao').innerHTML = "Selecione um tipo de Veículo Primeiro!!!";
 
 		}else if(document.getElementById("item").value == ""){
-
 			document.getElementById('texto-notificacao').innerHTML = "Selecione a Marca do Veículo!!!";
 
 		}else if(document.getElementById("veiculo").value == ""){
-
 			document.getElementById('texto-notificacao').innerHTML = "Selecione um Veículo!!!";
 
 		}else if(document.getElementById("ano").value == ""){
-
 			document.getElementById('texto-notificacao').innerHTML = "Selecione o Ano do Veículo!!!";
-		}else{
 
+		}else{
 			$("#myModal").modal();
 			document.getElementById('texto-notificacao').innerHTML = "";
 			var tipos = document.getElementById('tipo').value;
 			var idNome = document.getElementById('item').value;
 			var idModelo = document.getElementById('veiculo').value;
 			var idAno = document.getElementById('ano').value;
+
 			dayName = new Array ("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado")
 			monName = new Array ("janeiro", "fevereiro", "março", "abril", "maio", "junho", "agosto", "outubro", "novembro", "dezembro")
 			now = new Date;
-
 			const settings = {
-				"async": true,
-				"crossDomain": true,
 				"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas/"+idNome+"/modelos/"+idModelo+"/anos/"+idAno,
 				"method": "GET",
 			};
@@ -137,22 +106,17 @@
 	  			document.getElementById("modal-text-combustivel").innerHTML = response.Combustivel;
 	  			document.getElementById("modal-text-data").innerHTML =  dayName[now.getDay() ] + ", " + now.getDate () + " de " + monName [now.getMonth() ]   +  " de "  +     now.getFullYear () + ". ";
 	  			document.getElementById("modal-text-preco").innerHTML = response.Valor;
-
-
-
-				});
+			});
 		}
 	}
-
 </script>
 	<body>
 		<div class="corpo-principal">
-            <div class="corpo-contato">
-            	<div class="titulo-corpo-contato " id="corpo">PREÇO MÉDIO DE VEÍCULOS</div>
-
-	            <form action="javascript:;" method="post" class="formulario-contato">
+            <div class="corpo-fipe">
+            	<div class="titulo-corpo-fipe " id="corpo">PREÇO MÉDIO DE VEÍCULOS</div>
+	            <form action="javascript:;" method="post" class="formulario-fipe">
 				    <div>
-				        <label for="nome" class="text-contato">Selecione o Tipo de Veículo </label>
+				        <label for="nome" class="text-fipe">Selecione o Tipo de Veículo </label>
 				        <select id="tipo" class="form-control form-control-lg input-lg" onchange="tipoVeiculo()">
 						  	<option></option>
 						  	<option value="carros">Carros</option>
@@ -161,32 +125,28 @@
 						</select>
 				    </div>
 				    <div>
-				        <label for="nome" class="text-contato">Selecione a Marca do veiculo </label>
+				        <label for="nome" class="text-fipe">Selecione a Marca do veiculo </label>
 				        <select id="item" class="form-control form-control-lg input-lg" onchange="nomeVeiculo()">
-
 						</select>
 				    </div>
 				    <div>
-				        <label for="nome" class="text-contato">Selecione o Nome do Veículo </label>
+				        <label for="nome" class="text-fipe">Selecione o Nome do Veículo </label>
 				        <select id="veiculo" class="form-control form-control-lg input-lg" onchange="anoVeiculo()">
-
 						</select>
 				    </div>
 				    <div>
-				        <label for="nome" class="text-contato">Selecione o Ano do Veículo </label>
+				        <label for="nome" class="text-fipe">Selecione o Ano do Veículo </label>
 				        <select id="ano" class="form-control form-control-lg input-lg" >
-
 						</select>
 				    </div>
 				    <div class="texto-notificacao" id="texto-notificacao"></div>
+
 				    <div class="modal fade" id="myModal" role="dialog">
 					    <div class="modal-dialog">
 					      	<div class="modal-content">
 					        	<div class="modal-header">
 					          		<button type="button" class="close" data-dismiss="modal">&times;</button>
-					          		<h1 class="modal-title" id="modal-title">
-					          			
-					          		</h1>
+					          		<h1 class="modal-title" id="modal-title"></h1>
 					        	</div>
 					        	<div class="modal-body">
 					        		<br>
@@ -214,41 +174,23 @@
 					          	<div class="valor modal-body">
 					          		<span id="" class="modal-text-info-preco">Preço Médio: | </span>
 					          		<span id="modal-text-preco" class="modal-text-preco"></span><br>
-
 					          	</div>
-					          		
-					        	
 					        	<div class="modal-footer">
 					          		<button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
 					        	</div>
-
 					      	</div>
-
 					    </div>
-
 					</div>
-					<div class="div-botao-contato">
-
+					<div class="div-botao-fipe">
 				    	<button data-toggle="modal"  class="link-modal btn-lg " onclick="dadosVeiculo()"  style="cursor:pointer;">Pesquisar</button>
-
 				    </div>
-
-
 				</form>
-				<img id='output'>
-				
             </div>
     	</div>
 		<div class="rodape-total">
         	<div class="rodape">
-            
-           
-            	<div class="" style="height: 70px">
-
- 
-            	</div>
+            	<div class="" style="height: 70px"></div>
         	</div>
     	</div>
-
 	</body>
 </html>
