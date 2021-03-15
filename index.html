@@ -18,7 +18,7 @@
 	var ano;
 	
 	function escrever(btn){
-		if(document.getElementById("nome").value == ""){
+		if(document.getElementById("tipo").value == ""){
 			document.getElementById('texto-notificacao').innerHTML = "Campo não pode estar vazio!!!";
 
 		}
@@ -40,6 +40,7 @@
 		  			$('#item').append(`<option value='${codigo}'>${nome}</option>`);
 			});
 		});
+	
 	}
 
 	
@@ -90,37 +91,57 @@
 			});
 	}
 	function dadosVeiculo(){
-		var tipos = document.getElementById('tipo').value;
-		var idNome = document.getElementById('item').value;
-		var idModelo = document.getElementById('veiculo').value;
-		var idAno = document.getElementById('ano').value;
-		dayName = new Array ("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado")
-		monName = new Array ("janeiro", "fevereiro", "março", "abril", "maio", "junho", "agosto", "outubro", "novembro", "dezembro")
-		now = new Date;
+		if(document.getElementById("tipo").value == ""){
 
-		const settings = {
-			"async": true,
-			"crossDomain": true,
-			"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas/"+idNome+"/modelos/"+idModelo+"/anos/"+idAno,
-			"method": "GET",
-		};
-		$.ajax(settings).done(function (response) {
-			console.log(response);
-			$("#dadosVeiculo").empty();
+			document.getElementById('texto-notificacao').innerHTML = "Selecione um tipo de Veículo Primeiro!!!";
 
-			document.getElementById("modal-title").innerHTML = response.Modelo;
-  			document.getElementById("modal-text-mes").innerHTML = response.MesReferencia;
-  			document.getElementById("modal-text-codigo").innerHTML = response.CodigoFipe;
-  			document.getElementById("modal-text-marca").innerHTML = response.Marca;
-  			document.getElementById("modal-text-modelo").innerHTML = response.Modelo;
-  			document.getElementById("modal-text-ano").innerHTML = response.AnoModelo;
-  			document.getElementById("modal-text-combustivel").innerHTML = response.Combustivel;
-  			document.getElementById("modal-text-data").innerHTML =  dayName[now.getDay() ] + ", " + now.getDate () + " de " + monName [now.getMonth() ]   +  " de "  +     now.getFullYear () + ". ";
-  			document.getElementById("modal-text-preco").innerHTML = response.Valor;
+		}else if(document.getElementById("item").value == ""){
+
+			document.getElementById('texto-notificacao').innerHTML = "Selecione a Marca do Veículo!!!";
+
+		}else if(document.getElementById("veiculo").value == ""){
+
+			document.getElementById('texto-notificacao').innerHTML = "Selecione um Veículo!!!";
+
+		}else if(document.getElementById("ano").value == ""){
+
+			document.getElementById('texto-notificacao').innerHTML = "Selecione o Ano do Veículo!!!";
+		}else{
+
+			$("#myModal").modal();
+			document.getElementById('texto-notificacao').innerHTML = "";
+			var tipos = document.getElementById('tipo').value;
+			var idNome = document.getElementById('item').value;
+			var idModelo = document.getElementById('veiculo').value;
+			var idAno = document.getElementById('ano').value;
+			dayName = new Array ("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado")
+			monName = new Array ("janeiro", "fevereiro", "março", "abril", "maio", "junho", "agosto", "outubro", "novembro", "dezembro")
+			now = new Date;
+
+			const settings = {
+				"async": true,
+				"crossDomain": true,
+				"url": "https://parallelum.com.br/fipe/api/v1/"+tipos+"/marcas/"+idNome+"/modelos/"+idModelo+"/anos/"+idAno,
+				"method": "GET",
+			};
+			$.ajax(settings).done(function (response) {
+				console.log(response);
+				$("#dadosVeiculo").empty();
+
+				document.getElementById("modal-title").innerHTML = response.Modelo;
+	  			document.getElementById("modal-text-mes").innerHTML = response.MesReferencia;
+	  			document.getElementById("modal-text-codigo").innerHTML = response.CodigoFipe;
+	  			document.getElementById("modal-text-marca").innerHTML = response.Marca;
+	  			document.getElementById("modal-text-modelo").innerHTML = response.Modelo;
+	  			document.getElementById("modal-text-ano").innerHTML = response.AnoModelo;
+	  			document.getElementById("modal-text-combustivel").innerHTML = response.Combustivel;
+	  			document.getElementById("modal-text-data").innerHTML =  dayName[now.getDay() ] + ", " + now.getDate () + " de " + monName [now.getMonth() ]   +  " de "  +     now.getFullYear () + ". ";
+	  			document.getElementById("modal-text-preco").innerHTML = response.Valor;
 
 
 
-			});
+				});
+		}
 	}
 
 </script>
@@ -157,6 +178,7 @@
 
 						</select>
 				    </div>
+				    <div class="texto-notificacao" id="texto-notificacao"></div>
 				    <div class="modal fade" id="myModal" role="dialog">
 					    <div class="modal-dialog">
 					      	<div class="modal-content">
@@ -207,14 +229,14 @@
 					</div>
 					<div class="div-botao-contato">
 
-				    	<button data-toggle="modal" data-target="#myModal" class="link-modal btn-lg " onclick="dadosVeiculo()"  style="cursor:pointer;">Pesquisar</button>
+				    	<button data-toggle="modal"  class="link-modal btn-lg " onclick="dadosVeiculo()"  style="cursor:pointer;">Pesquisar</button>
 
 				    </div>
 
 
 				</form>
 				<img id='output'>
-				<div class="texto-notificacao" id="texto-notificacao"></div>
+				
             </div>
     	</div>
 		<div class="rodape-total">

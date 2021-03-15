@@ -9,7 +9,7 @@ body {
 .corpo-contato {
 	background: #d4c9c9;
   	width: 1200px;
-  	height: 580px;
+  	height: 900px;
   	margin: auto;
   	position: relative;
   	margin-top: 3px;
@@ -61,7 +61,12 @@ body {
     border: 1px solid #00008B;
     opacity: 0.8;
 }
-
+.linhaH {
+  background-color: #000;
+  height: 15px;
+  width: 100px;
+  color: #000;
+}
 .link-modal{
   margin-top: 1em;
   width: 160px;
@@ -99,7 +104,8 @@ body {
 }
 
 .texto-notificacao{
-  color: #00008B;
+
+  color: #f00;
   font: 22px 'calibri';
   margin-top: 3px;
   text-align: center;
