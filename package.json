@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "servidor",
+  "version": "1.0.0",
+  "description": "Servidor de Valores de Veiulos",
+  "main": "server.js",
+  "author": "Anderson Tonon",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andersontonon/TabelaFipe.git"
+  },
+  "keywords": [
+    "servidor",
+    "express",
+    "tabela",
+    "fipe"
+  ],
+  "bugs": {
+    "url": "https://github.com/andersontonon/TabelaFipe/issues"
+  },
+  "homepage": "https://github.com/andersontonon/TabelaFipe#readme"
+}
