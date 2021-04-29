@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
+</head>
+    <style>
+    body {
+    background-color: #000;
+    }
+    .corpo-fipe{
+        background: #d4c9c9;
+        width: 1200px;
+        height: 650px;
+        margin: auto;
+        position: relative;
+        margin-top: 5px;
+    }
+    .titulo-corpo-fipe{
+        color: #ffffff;
+        font: 36px 'calibri';
+        text-align: center;
+        height: 60px;
+        width: 100%;
+        background: #00008B; 
+    }
+    .formulario-fipe {
+        font: 20px 'calibri';
+        color: #5c5b5b;
+        background: #d4c9c9;
+        margin: 0 auto;
+        width: 600px;
+        padding: 1em;
+        border-radius: 1em;
+        margin-top: 20px;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .link-modal{
+        margin-top: 1em;
+        width: 160px;
+        background: #6C7A89;
+        color: #fff;
+        border:0;
+}
+</style>
+<body>
+
+    <div class="corpo-principal">
+        <div class="corpo-fipe">
+            <div class="titulo-corpo-fipe " id="corpo">LOGIN</div>
+                
+            <div class="formulario-fipe">
+                <form action="/login">
+                    <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input name="email" type="email" class="form-control" id="email">
+                    </div>
+                    <div class="form-group">
+                    <label for="pwd">Senha:</label>
+                    <input type="password" class="form-control" id="pwd">
+                    </div>
+                    <div class="checkbox">
+                    <label><input type="checkbox"> Lembrar senha</label>
+                    </div>
+                    
+                    <div class="div-botao-fipe">
+				    	<button id="login" type="submit"  class="link-modal btn-lg "  style="cursor:pointer;">Entrar</button>
+				    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
