@@ -132,7 +132,7 @@ server.get('/entrar', (req, res) => {
     }  
 });
 
-server.listen(8090, "192.168.0.120", () =>{
+server.listen(process.env.PORT || 3000, () =>{
     console.log('Servidor iniciado em http://localhost:8090');
     console.log('Para desligar o servidor: ctrl + c');
 });
