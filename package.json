@@ -1,12 +1,14 @@
 {
   "dependencies": {
     "cookie-session": "^1.4.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "hbs": "^4.1.2",
     "mongodb": "^3.6.6",
     "watch": "^1.0.2"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server"
   },
   "name": "servidor",
   "version": "1.0.0",
