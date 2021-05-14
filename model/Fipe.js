@@ -3,7 +3,7 @@ const MongoClient = require("mongodb").MongoClient;
 module.exports = class Fipe{
     static async find (busca, tipo, marca, modelo, ano){
 
-        const conn = await MongoClient.connect('mongodb://localhost/tabelafipe');
+        const conn = await MongoClient.connect(process.env.MONGO_URL);
         const db = conn.db();
 
         switch(busca){
