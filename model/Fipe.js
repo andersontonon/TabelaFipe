@@ -7,36 +7,28 @@ module.exports = class Fipe{
         const db = conn.db();
 
         switch(busca){
-
             case 'TIPO':
-                console.log('TIPO:');
                 var numVeiculo = parseInt(tipo);
                 return await 
                     db.collection('tabelafipe')
                     .distinct('Marca', {TipoVeiculo: numVeiculo});
-
             break;
 
             case 'MARCA':
-                console.log('MARCA:');
                 var numVeiculo = parseInt(tipo);
                 return await 
                     db.collection('tabelafipe')
-                    .distinct('Modelo', {TipoVeiculo: numVeiculo, Marca: marca});
-                    
+                    .distinct('Modelo', {TipoVeiculo: numVeiculo, Marca: marca}); 
             break;
 
             case 'MODELO':
-                console.log('MODELO:');
                 var numVeiculo = parseInt(tipo);
                 return await 
                     db.collection('tabelafipe')
-                    .distinct('AnoModelo', {TipoVeiculo: numVeiculo, Marca: marca, Modelo:modelo});
-                    
+                    .distinct('AnoModelo', {TipoVeiculo: numVeiculo, Marca: marca, Modelo:modelo});  
             break;
 
             case 'ANO':
-                console.log('ANO:');
                 var anoVeiculo = parseInt(ano);
                 var numVeiculo = parseInt(tipo);
                 return await 
@@ -45,12 +37,36 @@ module.exports = class Fipe{
                     .toArray();
             break;
 
-            // default:
-            //     console.log('fipe:');
-            //     return await db.collection('tabelafipe')
-            //     .find({TipoVeiculo: new RegExp('^' + tipo)})
-            //     .toArray();
+            case 'LISTAR_MARCAS':
+                return await 
+                    db.collection('marcas')
+                    .distinct('nome');
+            break;
+
+            case 'CADASTRAR_VEICULO':
+                return await 
+                    db.collection('tabelafipe')
+                    .insertOne(tipo);
+            break;
+
+            case 'BUSCAR':
+                return await db.collection('tabelafipe')
+                .find({TipoVeiculo: new RegExp('^' + tipo)})
+                .toArray();
+            break;
+
+            default:
+                return await db.collection('tabelafipe').find().toArray();
         }
-        return await db.collection('tabelafipe').find().toArray();
     }
+    static async login (email, senha){
+
+        const conn = await MongoClient.connect(process.env.MONGO_URL);
+        const db = conn.db();
+
+        console.log('LOGIN:');
+        return await 
+            db.collection('users')
+            .findOne({email: email, senha: senha});
+    }    
 }
