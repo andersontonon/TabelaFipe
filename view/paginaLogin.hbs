@@ -1,80 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">    
-    <link rel="stylesheet" type="text/css" href="login.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
-</head>
-    <style>
-    body {
-    background-color: #000;
-    }
-    .corpo-fipe{
-        background: #d4c9c9;
-        width: 1200px;
-        height: 650px;
-        margin: auto;
-        position: relative;
-        margin-top: 5px;
-    }
-    .titulo-corpo-fipe{
-        color: #ffffff;
-        font: 36px 'calibri';
-        text-align: center;
-        height: 60px;
-        width: 100%;
-        background: #00008B; 
-    }
-    .formulario-fipe {
-        font: 20px 'calibri';
-        color: #5c5b5b;
-        background: #d4c9c9;
-        margin: 0 auto;
-        width: 600px;
-        padding: 1em;
-        border-radius: 1em;
-        margin-top: 20px;
-        align-items: center;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .link-modal{
-        margin-top: 1em;
-        width: 160px;
-        background: #6C7A89;
-        color: #fff;
-        border:0;
-}
-</style>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">   
+        <link rel="stylesheet" href="../style.css"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
+        {{!-- <meta http-equiv="refresh" content="0.5"> --}}
+    </head>
+    <script type="text/javascript"> 
 
-    <div class="corpo-principal">
-        <div class="corpo-fipe">
-            <div class="titulo-corpo-fipe " id="corpo">LOGIN</div>
+        function lembrarSenha(){
+            
+            if(document.getElementById('checkbox').checked){
                 
-            <div class="formulario-fipe">
-                <form action="./entrar" method="get" accept-charset="utf-8">
-                    <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input name="email" type="email" class="form-control" id="email">
-                    </div>
-                    <div class="form-group">
-                    <label for="pwd">Senha:</label>
-                    <input type="password" class="form-control" id="pwd">
-                    </div>
-                    <div class="checkbox">
-                    <label><input type="checkbox"> Lembrar senha</label>
-                    </div>
-                    
-                    <div class="div-botao-fipe">
-				    	<button id="login" type="submit"  class="link-modal btn-lg "  style="cursor:pointer;">Entrar</button>
-				    </div>
-                </form>
+                document.getElementById("senha").autocomplete = "current-password";
+                console.log(document.getElementById("senha").autocomplete);
+            }else{
+                document.getElementById("senha").autocomplete = "off";
+                console.log(document.getElementById("senha").autocomplete);
+            }        
+        }
+        function login(){
+
+            var email = document.getElementById("email").value;
+            var senha = document.getElementById("senha").value;
+
+            const settings = {
+                "url": "/entrar",
+                "method": "POST",
+                data: {email: email, senha: senha}
+            };
+        }
+    </script>
+    <body>
+        <div class="corpo-principal">
+            <div class="corpo-fipe">
+                <div class="titulo-corpo-fipe" id="corpo">PREÇO MÉDIO DE VEÍCULOS</div>
+                <div class="label-fipe-cadastro">
+                    <label for="nome" class="label-text-fipe-login">Login - Tabela Fipe </label>
+                </div>
+                <div class="formulario-fipe-login">
+                    <form class="" method="POST" onsubmit="return login();" action="/entrar">
+                        <div class="form-group">
+                            <label class="text-fipe-cadastro" for="email">E-mail:</label>
+                            <input name="email" type="email" placeholder="seunome@email.com" class="form-control form-control-lg input-lg" id="email"  required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-fipe-cadastro" for="senha">Senha:</label>
+                            <input name="senha" type="password" class="form-control form-control-lg input-lg" placeholder="Sua senha" id="senha" minlength="6" maxlength="20" autocomplete="off" required>
+                        </div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="checkbox" onclick="lembrarSenha();"> Lembrar senha</label>
+                        </div>
+                        <div class="label-fipe-cadastro">
+                            <label for="nome" class="label-text-fipe-login-message"> </label>
+                        </div>
+                        <div class="div-botao-fipe-login">
+                            <a href="/cadastrar">
+                                <button id="cadastrar" type="button" class="link-modal btn-lg " style="cursor:pointer;">Cadastrar</button>
+                            </a>
+                            <button id="entrar" type="submit" class="link-modal btn-lg "  style="cursor:pointer;">Entrar</button>
+                        </div>                   
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>
