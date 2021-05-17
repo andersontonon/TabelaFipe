@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>PREÇO MÉDIO DE VEÍCULOS</title>
+ <head>
+  	<meta charset="utf-8">
+  	<link rel="stylesheet" type="text/css" href="../style.css">
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://rawgit.com/BankFacil/vanilla-masker/master/lib/vanilla-masker.js"></script>
+	<script src="https://igorescobar.github.io/jQuery-Mask-Plugin/js/jquery.mask.min.js"></script> 
+
+
+	{{!-- <meta http-equiv="refresh" content="0.5"> --}}
+</head>
+<script type="text/javascript">
+
+	function tipoVeiculo(){
+		var tipos = document.getElementById('tipo').value;
+
+		const settings = {
+			"url": "/listar-marcas",
+			"method": "GET",
+			
+		};
+		$.ajax(settings).done(function (response) {
+
+			document.getElementById("nome").value = "";
+			document.getElementById("ano").selectedIndex = "0";
+			document.getElementById("valor").value = "";
+			document.getElementById("codigo").value = "";
+			document.getElementById("combustivel").selectedIndex ="0";
+			document.getElementById("date").value = null;
+			$('#marca').empty();
+			$('#marca').append(`<option value="" disabled selected>Selecione uma marca</option>`);
+			response.dados.map((resTipo) => {
+				//alert(resTipo.value);
+	  			$('#marca').append(`<option value='${resTipo.value}'>${resTipo.value}</option>`);
+			});
+		});
+		document.getElementById('texto-notificacao').innerHTML = "";
+	} 
+
+	function listarAno(){
+		for (var i = 1990; i < 2023; i++) {
+			$('#ano').append(`<option value='${i}'>${i}</option>`);
+		}
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+
+	function listarCombustivel(){
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+
+	function gerarValor(){
+		var dinheiro = document.getElementById("valor");
+		VMasker(dinheiro).maskMoney({
+			precision: 2,
+			separator: ',',
+			delimiter: '.',
+			unit: 'R$',  
+			zeroCents: true
+		});
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+
+	function gerarCodigoFipe(){
+
+		$('#codigo').mask('000000-0', {reverse: true});
+		var verificar = document.getElementById("codigo").value;
+
+		console.log(verificar.length);
+		
+		if(verificar.length == 8){
+			
+			var resultado = this.verificarDigito(verificar.substr(0, 6));
+			var digito = verificar.substr(7);
+
+			if(resultado == digito){
+				console.log("sim");
+			}
+			else{
+				console.log('não');
+			}
+		}else{
+			console.log('Codigo fipe deve conter 6 digitos e um digito verificador');
+		}
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+
+	function verificarNome(){
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+	function verificarMarca(){
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+	function verificarMes(){
+		document.getElementById('texto-notificacao').innerHTML = "";
+	}
+
+	function verificarDigito(valor){
+
+		var multiplicadores = [2, 3, 4, 5, 6, 7];	
+		var i = 0;
+		var resto = valor.split("").reduceRight(function(anterior, atual){
+			if(i > multiplicadores.length - 1) i = 0;
+			return (multiplicadores[i++] * parseInt(atual, 10)) + anterior; 
+		}, 0) % 11;
+		
+		return (11 - resto >= 10 ? 0 : 11 - resto);
+	}
+	function verificarDadosVeiculo(){
+		if(document.getElementById("tipo").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Selecione um tipo de veículo primeiro !!!";
+
+		}else if(document.getElementById("nome").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Digite o nome do veículo primeiro !!!";
+
+		}else if(document.getElementById("marca").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Selecione a marca do veículo !!!";
+
+		}else if(document.getElementById("ano").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Selecione o ano do veículo !!!";
+
+		}else if(document.getElementById("valor").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Digite o valor do veículo !!!";
+
+		}else if(document.getElementById("codigo").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Digite o codigo Fipe !!!";
+
+		}else if(document.getElementById("combustivel").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Selecione o tipo de combustível !!!";
+
+		}else if(document.getElementById("date").value == ""){
+			document.getElementById('texto-notificacao').innerHTML = "Selecione o mês de referencia !!!";
+
+		}else{
+			$("#myModal").modal();
+
+			dayName = new Array ("domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado")
+			monName = new Array ("janeiro", "fevereiro", "março", "abril", "maio", "junho", "agosto", "outubro", "novembro", "dezembro")
+			now = new Date;
+
+			document.getElementById("modal-title").innerHTML = document.getElementById("nome").value;
+			document.getElementById("modal-text-mes").innerHTML = document.getElementById("date").value;
+			document.getElementById("modal-text-codigo").innerHTML = document.getElementById("codigo").value;
+			document.getElementById("modal-text-marca").innerHTML = document.getElementById("marca").value;
+			document.getElementById("modal-text-modelo").innerHTML = document.getElementById("nome").value;
+			document.getElementById("modal-text-ano").innerHTML = document.getElementById("ano").value;
+			document.getElementById("modal-text-combustivel").innerHTML = document.getElementById("combustivel").value;
+			document.getElementById("modal-text-data").innerHTML =  dayName[now.getDay() ] + ", " + now.getDate () + " de " + monName [now.getMonth() ]   +  " de "  +     now.getFullYear () + ". ";
+			document.getElementById("modal-text-preco").innerHTML = document.getElementById("valor").value;
+
+			document.getElementById('texto-notificacao').innerHTML = "";
+		}
+	}
+	function limparCampos(){
+		monName = new Array ("janeiro", "fevereiro", "março", "abril", "maio", "junho", "agosto", "outubro", "novembro", "dezembro");
+			
+		document.getElementById("tipo").selectedIndex = "0";
+		document.getElementById("nome").value = "";
+		document.getElementById("marca").selectedIndex = "0";
+		document.getElementById("ano").selectedIndex = "0";
+		document.getElementById("valor").value = "";
+		document.getElementById("codigo").value = "";
+		document.getElementById("combustivel").selectedIndex ="0";
+		document.getElementById("date").value = null;
+	}
+
+	function cadastrarVeiculo(){
+		var tipo = document.getElementById("tipo").selectedIndex;
+		var nome = document.getElementById("nome").value;
+		var marca = document.getElementById("marca").value;
+		var anoVeiculo = document.getElementById("ano").value;
+		var valor = document.getElementById("valor").value;
+		var codigo = document.getElementById("codigo").value;
+		var combustivel = document.getElementById("combustivel").value;
+		var date = document.getElementById("date").value;
+		var sigla = document.getElementById("combustivel").value.substr(0, 1);
+
+		var ano = date.substr(0,4);
+		var mes = monName[parseInt(date.substr(5,2))];
+		var data = `${mes} de ${ano}`;
+
+		const settings = {
+			"url": "/cadastrar-veiculo",
+			"method": "GET",
+			data: { dados: `{"Valor":"${valor}","Marca":"${marca}","Modelo":"${nome}","AnoModelo":${anoVeiculo},"Combustivel":"${combustivel}","CodigoFipe":"${codigo}","MesReferencia":"${data}","TipoVeiculo":${tipo},"SiglaCombustivel":"${sigla}"}`}
+		};
+		$.ajax(settings).done(function (response) {
+
+			if(response.result.ok == 1 && response.insertedId){
+				$("#btnModalVoltar").text("Fechar");
+				$("#btnModalCadastrar").remove();
+
+				document.getElementById("verifiarDados").value ="";
+				document.getElementById("verifiarDados").innerHTML = "Dados cadastrados com sucesso!!!";
+				document.getElementById("verifiarDados").style.color="#12ff12";
+				document.getElementById("verifiarDados").style.fontSize="25px";
+
+				function myFunction() {
+					$('#myModal').modal('hide');
+					this.limparCampos();
+					document.location.reload();					
+				}
+
+				setTimeout(myFunction, 2000);
+
+			}else{
+				document.getElementById("verifiarDados").value ="";
+				document.getElementById("verifiarDados").innerHTML = "Erro ao gravar dados no servidor!!!";
+				document.getElementById("verifiarDados").style.fontSize="27px";
+			}
+
+		});
+
+
+	}				  
+
+</script>
+	<body>
+		<div class="corpo-principal">
+            <div class="corpo-fipe">
+            	<div class="titulo-corpo-fipe-cadastro" id="corpo">PREÇO MÉDIO DE VEÍCULOS</div>
+				<div class="label-fipe-cadastro">
+					<label for="nome" class="label-text-fipe-cadastro">Cadastro de Veículo: </label>
+					<label for="nome" class="label-text-fipe-usuario">Seja bem vindo: <span class="text-danger" id="resLabelAdmin">{{resLabelAdmin}}</span> </label>
+					<form method="post" action="/logout">
+						<button type="submit" class="logout-Cadastro btn">logout</button>
+					</form >
+				</div>
+	            <form action="javascript:;" method="GET" class="formulario-fipe-cadastro">
+					<div>
+						<div>
+						
+							<label for="nome" class="text-fipe-cadastro">Tipo de Veículo: </label>
+							<select id="tipo" name="tipo" class="form-control form-control-lg input-lg" onchange="tipoVeiculo();">
+								<option value="" disabled selected>Selecionar uma opção</option>
+								<option value="1">Carros</option>
+								<option value="2">Motos</option>
+								<option value="3">Caminhões</option>
+							</select>
+						</div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Marca do veiculo: </label>		
+							<select id="marca" name="marca" class="form-control form-control-lg input-lg" onclick="verificarMarca()">
+								<option value="" disabled selected>Selecionar um tipo de veiculo primeiro</option>
+							</select>	
+						</div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Valor: </label>
+							<input type="text" id="valor" name="valor" class="form-control form-control-lg input-lg" placeholder="R$ 0,00" onclick="gerarValor();">
+						</div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Combustivel: </label>
+							<select id="combustivel" name="combustivel" class="form-control form-control-lg input-lg" onclick="listarCombustivel();">
+								<option value="" disabled selected>Selecionar uma opção</option>
+								<option value='Gasolina'>Gasolina</option>
+								<option value='Alcool'>Álcool</option>
+								<option value='Diesel'>Diesel</option>
+								<option value='Gnv'>Gnv</option>
+								<option value='Outro'>Outro</option>
+							</select>
+						</div>
+					</div>
+					<div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Nome do Veículo: </label>
+							<input type="text" id="nome" name="nome" class="form-control form-control-lg input-lg" placeholder="Digite o nome" onclick="verificarNome();">
+						</div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Ano do Veículo: </label>
+							<select id="ano" name="ano" class="form-control form-control-lg input-lg" onclick="listarAno();">
+								<option value="" disabled selected>Selecionar o ano</option>
+							</select>
+						</div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Codigo fipe: </label>
+							<input type="text" id="codigo" name="codigo" class="form-control form-control-lg input-lg" placeholder="123456-7" onclick="gerarCodigoFipe();">
+						</div>
+						<div>
+							<label for="nome" class="text-fipe-cadastro">Mes de Referencia </label>
+							<input id="date" type="date" nome="date" class="form-control form-control-lg input-lg" onclick="verificarMes();">
+						</div>
+					</div>
+
+				    <div class="texto-notificacao" id="texto-notificacao"></div>
+					
+				    <div class="modal fade" id="myModal" role="dialog">
+					    <div class="modal-dialog">
+					      	<div class="modal-content">
+					        	<div class="modal-header">
+					          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+					          		<h1 class="modal-title" id="modal-title"></h1>
+					        	</div>
+					        	<div class="modal-body">
+					        		<br>
+					          		<span id="" class="modal-text-info ">Mês de referência: | </span>
+					          		<span id="modal-text-mes" class="modal-text"></span><br>
+
+					          		<span id="" class="modal-text-info">Código Fipe: | </span>
+					          		<span id="modal-text-codigo" class="modal-text"></span><br>
+
+					          		<span id="" class="modal-text-info">Marca: | </span>
+					          		<span id="modal-text-marca" class="modal-text"></span><br>
+
+					          		<span id="" class="modal-text-info">Modelo: | </span>
+					          		<span id="modal-text-modelo" class="modal-text"></span><br>
+
+					          		<span id="" class="modal-text-info">Ano Modelo: | </span>
+					          		<span id="modal-text-ano" class="modal-text"></span><br>
+
+					          		<span id="" class="modal-text-info">Combustivel: | </span>
+					          		<span id="modal-text-combustivel" class="modal-text"></span><br>
+
+					          		<span id="" class="modal-text-info">Data do cadastro: | </span>
+					          		<span id="modal-text-data" class="modal-text"></span>
+					          	</div>
+					          	<div class="valor modal-body">
+					          		<span id="" class="modal-text-info-preco">Preço Médio: | </span>
+					          		<span id="modal-text-preco" class="modal-text-preco"></span><br>
+					          	</div>
+					        	<div class="modal-footer">
+									<span id="verifiarDados" class="modal-text-info-correto">Os dados estão corretos? </span>
+					          		<button type="button" id="btnModalVoltar" class="btn btn-default" data-dismiss="modal">Voltar</button>
+									<button type="button" id="btnModalCadastrar" class="btn btn-default" onclick="cadastrarVeiculo();">Salvar</button>
+					        	</div>
+					      	</div>
+					    </div>
+					</div>
+
+					<div class="div-botao-fipe">
+				    	<button data-toggle="modal" id="btnLimpar" class="link-modal btn-lg " onclick="limparCampos();"  style="cursor:pointer;">Limpar</button>
+				    </div>
+					<div class="div-botao-fipe">
+				    	<button data-toggle="modal" id="btnSalvar" class="link-modal btn-lg " onclick="verificarDadosVeiculo();"  style="cursor:pointer;">Salvar</button>
+				    </div>
+				</form>
+            </div>
+    	</div>
+
+		<div class="rodape-total">
+        	<div class="rodape">
+            	<div class="" style="height: 70px"></div>
+        	</div>
+    	</div>
+	</body>
+</html>
