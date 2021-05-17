@@ -4,7 +4,7 @@ body {
 .corpo-fipe{
 	background: #d4c9c9;
 	width: 1200px;
-	height: 650px;
+	height: 700px;
 	margin: auto;
 	position: relative;
 	margin-top: 5px;
@@ -17,26 +17,181 @@ body {
 	width: 100%;
 	background: #00008B; 
 }
-.formulario-fipe {
+.titulo-corpo-fipe-cadastro{
+	color: #ffffff;
+	font: 36px 'calibri';
+	text-align: center;
+	height: 60px;
+	width: 100%;
+	background: #00008B; 
+}
+
+
+
+.label-fipe-cadastro {
+  margin: 0 auto;
+	width: 100%;
+  align-items: center;
+  display:flex;
+  flex-direction:row;
+  justify-content: space-around;
+}
+
+.label-text-fipe-cadastro{
+  width: 50%;
+  padding-left: 15.5%;
+  font: 32px 'calibri';
+  color: #1a1919;
+  font-weight: bold;
+  margin-top: 20px;
+  justify-content: left;
+}
+
+.label-text-fipe-usuario{
+  width: 40%;
+  font: 25px 'calibri';
+  color: #1a1919;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: right;
+  justify-content: right;
+  padding-right:10px;
+}
+
+.label-text-fipe-login{
+  width: 36.5%;
+  font: 25px 'calibri';
+  color: #1a1919;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: left;
+  justify-content: left;
+}
+
+
+.logout{
+  width: 70px;
+  height: 30px;
+  background-color: #1a1919;
+  color: #d4c9c9;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+.logout-Cadastro{
+  width: 70px;
+  height: 30px;
+  background-color: #1a1919;
+  color: #d4c9c9;
+  padding-right: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right:10px;
+}
+
+
+
+.label-fipe-busca {
+  margin: 0 auto;
+  align-items: center;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-self: center;
+  padding-right: 10px;
+
+  
+}
+.label-text-fipe-busca{
+  width: 70%;
+  height: 50px;
+  font: 32px 'calibri';
+  color: #1a1919;
+  font-weight: bold;
+  margin-top: 20px;
+  padding-left: 20px;
+  text-align:left;
+  padding-left: 31%;
+
+
+}
+.label-text-fipe-busca-usuario{
+  width: 30%;
+  height: 50px;
+  font: 25px 'calibri';
+  color: #1a1919;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: right;
+  padding-right: 10px;
+
+}
+
+
+
+.formulario-fipe-busca {
 	font: 20px 'calibri';
   color: #5c5b5b;
  	background: #d4c9c9;
   margin: 0 auto;
-  width: 450px;
+	width: 100%;
 	padding: 1em;
   border-radius: 1em;
   margin-top: 20px;
+
   align-items: center;
-  display: flex;
-  flex-direction: row;
+  display:flex;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.formulario-fipe-cadastro {
+	font: 20px 'calibri';
+  color: #5c5b5b;
+ 	background: #d4c9c9;
+  margin: 0 auto;
+	width: 80%;
+	padding: 1em;
+  border-radius: 1em;
+  align-items: center;
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  justify-content:space-around;
+}
+
+.formulario-fipe-login {
+	font: 20px 'calibri';
+  color: #5c5b5b;
+ 	background: #d4c9c9;
+  margin: 0 auto;
+	width: 100%;
+	padding: 1em;
+  border-radius: 1em;
+
+  align-items: center;
+  display:flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.selectOption{
+  font-size: 50px;
 }
 .text-fipe {
   margin-top: 1em;
   width: 450px;
   justify-content: center;
 }
+.text-fipe-cadastro {
+  margin-top: 1em;
+  width: 350px;
+  /* justify-content: center; */
+}
+
 .campo-fipe{
   font: 20px 'calibri';
   width: 500px;
@@ -71,11 +226,12 @@ body {
 }
 
 .texto-notificacao{
-  color: #f00;
+  color:firebrick;
   font: 22px 'calibri';
   text-align: center;
   height: 60px;
   width: 100%;  
+  padding-top: 20px;
   font-weight: bolder;
 }
 .modal-content{
@@ -91,6 +247,16 @@ body {
   position:relative;
   border-width:2px;
   width:200px;
+  float: left;
+  text-align: right;
+}
+.modal-text-info-correto{
+  position:relative;
+  font-size: 30px;
+  color:firebrick;
+  border-width:5px;
+  font-weight: bold;
+  width:400px;
   float: left;
   text-align: right;
 }
@@ -134,5 +300,12 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
+	align-items: center;
+}
+.div-botao-fipe-login{
+	margin: 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
 	align-items: center;
 }
