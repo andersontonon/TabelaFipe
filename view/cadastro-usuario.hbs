@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>PREÇO MÉDIO DE VEÍCULOS</title>
+		<meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../style.css"> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>   
+    </head>
+
+    <script type="text/javascript"> 
+
+        var usuarioVerificado = false;
+        var emailVerificado = false;
+        function lembrarSenha(){
+            
+            if(document.getElementById('checkbox').checked){
+                document.getElementById("senha").autocomplete = "off";
+            }else{
+                document.getElementById("senha").autocomplete = "current-password";
+            }        
+        }
+        function cadastrarUsuario(){
+
+            var usuario = document.getElementById("usuario").value;
+            var email = document.getElementById("email").value;
+            var senha = document.getElementById("senha").value;
+
+            const settings = {
+                "url": "/cadastrar-login",
+                "method": "POST",
+                data: {email: email, senha: senha, usuario: usuario}
+            };
+
+            this.verificaUsuario();
+
+            if(usuario.length == 0){
+                document.getElementById("span-usuario").innerHTML = "Preencha este campo.";
+                document.getElementById("span-usuario").style.color="#f00000";
+
+            }else if(usuarioVerificado){
+                if(email.length == 0){
+                    document.getElementById("span-email").innerHTML = "Preencha este campo.";
+                    document.getElementById("span-email").style.color="#f00000";
+
+                }else if(emailVerificado){
+
+                    if(senha.length == 0){
+                        document.getElementById("span-senha").innerHTML = "Digite uma senha.";
+                        document.getElementById("span-senha").style.color="#f00000";
+
+                    }else if(6 > senha.length > 0 ){
+                        document.getElementById("span-senha").innerHTML = "Senha deve ter no mínimo 6 caracteres";
+                        document.getElementById("span-senha").style.color="#f00000";
+                    }else if(senha.length > 5){
+                        document.getElementById("span-senha").innerHTML = "";
+
+                        $.ajax(settings).done(function (response) {
+                            if(response){
+                                chamaMenssagemTrue();
+                            }else{
+                                chamaMenssagemFalse();
+                            }
+                 
+                        });
+
+                    }else{
+                        chamaMenssagemFalse();
+                        document.getElementById("span-email").innerHTML = "Erro desconhecido!!!";
+                    }
+                }else{
+                    //chamaMenssagemFalse();
+                    document.getElementById("span-email").innerHTML = "Verifique o e-mail digitado.";
+                }
+            }else{
+                chamaMenssagemFalse();
+                document.getElementById("span-usuario").innerHTML = "Verifique o usuario digitado.";
+            }
+        }
+
+        function chamaMenssagemTrue(){
+            document.getElementById("sobrepor").style.width = "100%";
+            document.getElementById("sobrepor").style.backgroundImage = "linear-gradient(rgba(61, 214, 0, 0.699), rgba(7, 218, 0, 0.411))";
+            setTimeout(setMensagemTrue, 1500);
+            setTimeout(fechaMenssagem, 3000);
+            setTimeout(function() {
+                location.href = "/login-usuario";
+            },4500);  
+        }
+
+        function chamaMenssagemFalse(){
+            document.getElementById("sobrepor").style.width = "100%";
+            document.getElementById("sobrepor").style.backgroundImage = "linear-gradient(rgba(211, 0, 0, 0.699), rgba(207, 0, 0, 0.411))";            
+            setTimeout(setMensagemFalse, 1500);
+            setTimeout(fechaMenssagem, 3000);            
+        }
+
+        function fechaMenssagem(){
+            document.getElementById("label-sobrepor").innerHTML = "";
+            document.getElementById("sobrepor").style.width = "0%";
+        }
+
+        function setMensagemTrue(){
+            document.getElementById("label-sobrepor").innerHTML = "Usuário cadastrado com sucesso!!!";
+        }
+
+        function setMensagemFalse(){
+            document.getElementById("label-sobrepor").innerHTML = "Não foi possível cadastrar usuario!!!";
+        }
+
+        function verificaUsuario(){
+            var usuario = document.getElementById("usuario").value;
+            var verific = false;
+
+            const settings = {
+                "url": "/verificar-usuario",
+                "method": "POST",
+                data: {usuario}
+            };
+            if(usuario.length > 5){
+                $.ajax(settings).done(function (response) {
+                    if(response == "disponivel"){
+                        document.getElementById("span-usuario").innerHTML = "Usuário disponível";
+                        document.getElementById("span-usuario").style.color="#04be13";
+                        usuarioVerificado = true;
+                    }else if(response == "indisponivel"){
+                        document.getElementById("span-usuario").innerHTML = "Usuário indisponível";
+                        document.getElementById("span-usuario").style.color="#f00000";
+                        usuarioVerificado = false;
+                    }else{
+                        document.getElementById("span-usuario").innerHTML = "Erro: Usuário indisponível";
+                        usuarioVerificado = false;
+                    }
+                });
+            }else{
+                document.getElementById("span-usuario").innerHTML = "Usuário deve ter entre 6 e 20 caracteres";
+                document.getElementById("span-usuario").style.color="#f00000";
+                usuarioVerificado = false;
+            }
+        }
+
+        function verificaEmail(){
+            var email = document.getElementById("email").value;
+            const settings = {
+                "url": "/verificar-email",
+                "method": "POST",
+                data: {email}
+            };
+
+            function validarEmail(emailTest) {
+                var re = /\S+@\S+\.\S+/;
+                return re.test(emailTest);
+            }
+
+            if(validarEmail(email)){
+                $.ajax(settings).done(function (response) {
+                    if(response == "disponivel"){
+                        document.getElementById("span-email").innerHTML = "E-mail disponível";
+                        document.getElementById("span-email").style.color="#04be13";
+                        emailVerificado = true;
+                    }else if(response == "indisponivel"){
+                        document.getElementById("span-email").innerHTML = "E-mail indisponível"
+                        document.getElementById("span-email").style.color="#f00000";
+                        emailVerificado = false;
+                    }else{
+                        document.getElementById("span-email").innerHTML = "Erro: E-mail indisponível";
+                        emailVerificado = false;
+                    }
+                });
+            }else{
+                document.getElementById("span-email").innerHTML = "E-mail digitado nao é um e um e-mail";
+                document.getElementById("span-email").style.color="#f00000";
+                emailVerificado = false;
+            }
+        }
+    </script>
+
+    <body class="body">
+        <div class="corpo-fipe">
+            <div class="titulo-corpo-fipe" id="corpo">PREÇO MÉDIO DE VEÍCULOS</div>
+            <div class="faixa-horizontal-menu" id="menu">
+                <a href="/" title="Restaurante e Cervejaria Cook" class="link-menu">
+                    <div class="botao-menu">HOME</div>
+                </a>
+                <a href="/admin/cadastro-veiculo" title="Cadastre novos veiculos!!!" class="link-menu">
+                    <div class="botao-menu">CADASTRAR VEÍCULO</div>
+                </a>
+                <a href="/busca" title="Carros, Motos, Caminhões..." class="link-menu">
+                    <div class="botao-menu">BUSCAR VEÍCULO</div>
+                </a>
+                <a href="/ajuda" title="Saiba mais sobre, como consultar os dados na tabela fipe!!!" class="link-menu">
+                    <div class="botao-menu">AJUDA</div>
+                </a>
+            </div>
+            <div class="sobrepor" id="sobrepor">
+                <label id="label-sobrepor" class="label-sobrepor"></label>
+            </div> 
+            <div class="label-fipe-cadastro">
+                <label for="nome" class="label-text-fipe-login">Cadastro de novo usuario:</label>
+            </div>
+            <div class="formulario-fipe-login">
+                <form>
+                    <div class="form-group">
+                        <label class="text-fipe-cadastro" for="email">Usuario:</label>
+                        <input name="usuario" type="usuario" autocomplete="off" placeholder="seunome" class="form-control form-control-lg input-lg" id="usuario" onkeyup="verificaUsuario();" required>
+                        <div class="span">
+                            <span for="nome" class="span-usuario" id="span-usuario"><span/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-fipe-cadastro" for="email">E-mail:</label>
+                        <input name="email" type="email"  autocomplete="off" placeholder="seunome@email.com" class="form-control form-control-lg input-lg" id="email" onkeyup="verificaEmail();" required>
+                        <div class="span">
+                            <span for="nome" class="span-email" id="span-email"><span/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-fipe-cadastro" for="senha">Senha:</label>
+                        <input name="senha" type="password" class="form-control form-control-lg input-lg" placeholder="Sua senha" id="senha" minlength="6" maxlength="20" autocomplete="off" required>
+                    </div>
+
+                    <div class="span">
+                        <span for="nome" class="span-senha" id="span-senha"><span/>
+                    </div>
+                    <div class="div-botao-fipe">
+                        <a href="/login-usuario">
+                            <button id="button-login" type="button" class="link-modal btn-lg " style="cursor:pointer;">Fazer Login</button>
+                        </a>
+                        <button id="button-cadastrar" type="button" class="link-modal btn-lg" onclick="cadastrarUsuario();" style="cursor:pointer;">Cadastrar</button>
+                    </div>                   
+                </form>
+            </div>
+        </div>
+		<div class="rodape-total">
+        	<div class="rodape">
+            	<h4>Projeto WEB-2 desenvolvido por Anderson Tonon</h1>
+        	</div>
+    	</div>
+    </body>
+</html>
