@@ -1,14 +1,16 @@
-body {
+.body{
   background-color: #000;
 }
+
 .corpo-fipe{
 	background: #d4c9c9;
 	width: 1200px;
-	height: 700px;
+	height: 750px;
 	margin: auto;
 	position: relative;
 	margin-top: 5px;
 }
+
 .titulo-corpo-fipe{
 	color: #ffffff;
 	font: 36px 'calibri';
@@ -17,6 +19,7 @@ body {
 	width: 100%;
 	background: #00008B; 
 }
+
 .titulo-corpo-fipe-cadastro{
 	color: #ffffff;
 	font: 36px 'calibri';
@@ -26,11 +29,10 @@ body {
 	background: #00008B; 
 }
 
-
-
 .label-fipe-cadastro {
   margin: 0 auto;
 	width: 100%;
+  height: 30px;
   align-items: center;
   display:flex;
   flex-direction:row;
@@ -38,6 +40,7 @@ body {
 }
 
 .label-text-fipe-cadastro{
+  padding-top: 15px;
   width: 50%;
   padding-left: 15.5%;
   font: 32px 'calibri';
@@ -48,6 +51,7 @@ body {
 }
 
 .label-text-fipe-usuario{
+  padding-top: 15px;
   width: 40%;
   font: 25px 'calibri';
   color: #1a1919;
@@ -59,15 +63,14 @@ body {
 }
 
 .label-text-fipe-login{
-  width: 36.5%;
-  font: 25px 'calibri';
+  padding-top: 15px;
+  font: 35px 'calibri';
   color: #1a1919;
   font-weight: bold;
   margin-top: 20px;
   text-align: left;
   justify-content: left;
 }
-
 
 .logout{
   width: 70px;
@@ -80,18 +83,30 @@ body {
 
 }
 
+.form-logout{
+  padding-top: 15px;
+}
+
 .logout-Cadastro{
+  border: 0;
+  text-decoration: none;
   width: 70px;
   height: 30px;
   background-color: #1a1919;
   color: #d4c9c9;
-  padding-right: 10px;
   margin-left: auto;
   margin-right: auto;
-  padding-right:10px;
+  border-radius: 5px;
 }
 
+.logout-Cadastro:hover{
+  color: #000;
+  background-color: rgb(114, 114, 114);
+}
 
+.modal-footer{
+  height: 70px;
+}
 
 .label-fipe-busca {
   margin: 0 auto;
@@ -101,12 +116,13 @@ body {
   justify-content:center;
   align-self: center;
   padding-right: 10px;
-
-  
+	width: 100%;
+  height: 30px;
 }
+
 .label-text-fipe-busca{
+  padding-top: 15px;
   width: 70%;
-  height: 50px;
   font: 32px 'calibri';
   color: #1a1919;
   font-weight: bold;
@@ -114,22 +130,17 @@ body {
   padding-left: 20px;
   text-align:left;
   padding-left: 31%;
-
-
 }
+
 .label-text-fipe-busca-usuario{
   width: 30%;
-  height: 50px;
   font: 25px 'calibri';
   color: #1a1919;
   font-weight: bold;
   margin-top: 20px;
   text-align: right;
   padding-right: 10px;
-
 }
-
-
 
 .formulario-fipe-busca {
 	font: 20px 'calibri';
@@ -139,8 +150,6 @@ body {
 	width: 100%;
 	padding: 1em;
   border-radius: 1em;
-  margin-top: 20px;
-
   align-items: center;
   display:flex;
   flex-direction: column;
@@ -171,25 +180,26 @@ body {
 	width: 100%;
 	padding: 1em;
   border-radius: 1em;
-
   align-items: center;
   display:flex;
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
 }
+
 .selectOption{
   font-size: 50px;
 }
+
 .text-fipe {
   margin-top: 1em;
   width: 450px;
   justify-content: center;
 }
+
 .text-fipe-cadastro {
   margin-top: 1em;
   width: 350px;
-  /* justify-content: center; */
 }
 
 .campo-fipe{
@@ -198,6 +208,7 @@ body {
   height: 40px;
   border: 1px solid #00008B;
 }
+
 .link-modal{
   margin-top: 1em;
   width: 160px;
@@ -205,6 +216,7 @@ body {
   color: #fff;
   border:0;
 }
+
 .link-modal:hover{
   margin-top: 1em;
   width: 160px;
@@ -212,12 +224,14 @@ body {
   color: #fff;
   border:0;
 }
+
 .botao-fipe{ 
 	font: 35px 'calibri';
 	color: #fff;
 	background-color: #00008B;
   border-radius: 5px;
 }
+
 .botao-fipe:hover { 
 	font: 35px 'calibri';
 	color: #fff;
@@ -234,15 +248,18 @@ body {
   padding-top: 20px;
   font-weight: bolder;
 }
+
 .modal-content{
   border: 0;
 }
+
 .modal-body{
   display: table;
   height: 100%;
   width: 100%;
   background-color: #87CEEB;
 }
+
 .modal-text-info{
   position:relative;
   border-width:2px;
@@ -250,6 +267,7 @@ body {
   float: left;
   text-align: right;
 }
+
 .modal-text-info-correto{
   position:relative;
   font-size: 30px;
@@ -260,6 +278,7 @@ body {
   float: left;
   text-align: right;
 }
+
 .modal-text{
   position: relative;
   border-width:2px;
@@ -269,6 +288,7 @@ body {
   color: #363636;
   font-weight: bolder;
 }
+
 .valor{
   display: table;
   height: 40px;
@@ -276,24 +296,29 @@ body {
   color: #fff;
   background-color: #1E90FF;
 }
+
 .modal-text-info-preco{
   position:relative;
   width:200px;
   float: left;
   text-align: right;
+}
 
-}
 .modal-text-preco{
-    position: relative;
-    width: 360px;
-    left:0px;
-    float: right;
-    font-weight: bolder;
+  position: relative;
+  width: 360px;
+  left:0px;
+  float: right;
+  font-weight: bolder;
 }
+
 .rodape-total {
-	margin-top: 3px;
+	height: 70px;
 }
+
 .rodape {
+  height: 60px;
+  color: #686666;
 	background: #222222;
 	width: 1200px;
 	margin: 0 auto;
@@ -302,10 +327,100 @@ body {
 	justify-content: space-around;
 	align-items: center;
 }
-.div-botao-fipe-login{
+
+.div-botao-fipe{
+  padding-top: 25px;
 	margin: 0 auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
+}
+
+.div-botoes-cadastro{
+  display: flex;
+  width: 80%;
+  justify-content:space-evenly;
+}
+
+.faixa-horizontal-menu {
+  background: #222222;
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+}
+
+.botao-menu {
+  margin: 5px;
+  height: 40px;
+  padding: 5px 50px;
+  color: #d4c9c9;
+  font: 20px 'calibri';
+  display: inline-block;
+}
+
+.botao-menu:hover {
+  background: #d3d3d3;
+  color: #1a1a1a;
+}
+
+.link-menu{
+  text-decoration:none;
+}
+
+.span{
+  height: 10px;
+}
+
+.span-usuario{
+  color: rgb(4, 187, 20);
+}
+
+.span-email{
+  color: rgb(238, 0, 0);
+}
+
+.sobrepor{
+  transition: width 2s, height 2s, background-color 2s, transform 2s; 
+  position:absolute;	
+  width:0%;
+  height:60px;
+  background-image: none;
+}
+
+.label-sobrepor{
+  margin: auto;
+  align-items: center;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  align-self:auto;
+  font-size: 30px;
+  color: rgb(255, 255, 255);
+}
+
+.checkbox{
+  padding-top: 15px;
+}
+
+.span-erro{
+  padding-top: 35px;
+  color: rgb(238, 0, 0);
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.conteudo-ajuda{
+  padding-top: 50px;
+  margin: auto;
+  align-items: center;
+  flex-direction:column;
+  align-self:auto;
+  font-size: 30px;
+  color: rgb(39, 39, 39);
+  width: 700px;
 }
