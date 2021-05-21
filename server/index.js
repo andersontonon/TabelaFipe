@@ -1,12 +1,9 @@
-const http = require('http');
 const path = require('path');
 const express = require('express')
 const server = express();
-const url = require('url');
-const qs = require('querystring');
 const bodyParser = require('body-parser');
 const Fipe = require('../model/Fipe.js');
-
+const User = require('../model/User.js');
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.set('view engine', 'hbs');
@@ -25,39 +22,76 @@ const parseCookies = (cookie = '') =>
 
 const session = {};
 
-server.get('/' || '', (req, res) =>{
+server.get('/', async (req, res) =>{
     const cookies = parseCookies(req.headers.cookie);
+    if(cookies && cookies.session_user && cookies.session_user == "Anderson"){
+        res.render('cadastro-veiculo',{resLabelAdmin: cookies.session_user});
 
-	if(cookies && cookies.session_user){
-        res.render('busca',{resLabelAdmin: cookies.session_user});
+	}else if(cookies && cookies.session_user){
+        res.render('busca-veiculo',{resLabelAdmin: cookies.session_user});
 
 	}else{
-		res.render('paginaLogin');
+		res.render('login-usuario', {resLogin: "Faça login para buscar veículos."});
 	}
 });
 
-server.post('/entrar', async (req, res) => {
+server.post('/fazer-login', async (req, res) => {
     const {email, senha} = req.body;
-    const user = await Fipe.login(email, senha);
+    const user = await User.logar(email, senha);
 
-    if(!user){
-        return res.status(400).send({error: "Usuario não encontrado"});
-    }
-    if(user.senha != senha){
-        return res.status(400).send({error: "Senha incorreta!!!"})
-    }
-    if(user.email == "awst@live.com"){
-        res.cookie('session_user', user.usuario, { maxAge: 900000, httpOnly: true });
-        return res.render('cadastroVeiculo', {resLabelAdmin: user.usuario});
+    if(!user || user == null){
+        return res.render('login-usuario', {resLogin: "E-mail e/ou senha inválidos.", email:email});
+        
+    }else if(user.email == 'tabela@fipe.com'){
+        res.cookie('session_user', user.email, { maxAge: 900000, httpOnly: true });
+        return res.render('cadastro-veiculo', {resLabelAdmin: user.email});
+
     }else{
-
-        res.cookie('session_user', user.usuario, { maxAge: 900000, httpOnly: true });
-        return res.render('busca', {resLabelAdmin: user.usuario})
+        res.cookie('session_user', user.email, { maxAge: 900000, httpOnly: true });
+        return res.render('busca-veiculo', {resLabelAdmin: user.email});
     }
 });
 
-server.get('/entrar', async (req, res) => {
-    return res.redirect('/');
+server.get('/admin/cadastro-veiculo', async (req, res) => {
+
+    const cookies = parseCookies(req.headers.cookie);
+
+    if(cookies && cookies.session_user && cookies.session_user == "tabela@fipe.com"){
+        res.render('cadastro-veiculo',{resLabelAdmin: cookies.session_user});
+
+	}else{
+		res.render('login-usuario', {resLogin: "Faça login como admin para cadastrar veículos."});
+	}
+});
+
+server.get('/login-usuario', async (req, res) => {
+    return res.render('login-usuario');
+});
+
+server.post('/cadastrar-login', async (req, res) => {
+    const {email, senha, usuario} = req.body;
+    const user = await User.cadastrar(email, senha, usuario);
+
+    if(!user.ops[0]){
+        res.send('rejection');
+        res.end();
+
+    }else if(user.ops[0].usuario == usuario && user.ops[0].email){
+        res.send('rejection');
+        res.end();
+
+    }else if(user.ops[0].usuario){
+        res.send('success');
+        res.end();
+    }
+});
+
+server.get('/cadastrar-usuario', async (req, res) => {
+    return res.redirect('/cadastro-usuario');
+});
+
+server.get('/cadastrar-login', async (req, res) => {
+    return res.redirect('/cadastro-usuario');
 });
 
 server.post('/logout', async (req, res) =>{
@@ -66,13 +100,48 @@ server.post('/logout', async (req, res) =>{
 
 });
 
-server.get('/login', (req, res) => {
-    res.render('paginaLogin', (err,data) => {
-        if (err) {
-            throw err;
-        }
-        res.end(data);
-    });
+server.get('/fazer-login', async (req, res) => {
+    res.render('login-usuario');
+});
+
+server.post('/verificar-usuario', async (req, res) => {
+    
+    const {usuario} = req.body;
+    const resBusca = await User.verificaUser(usuario);
+
+    if(resBusca && resBusca.usuario == usuario){
+        res.send("indisponivel");
+        res.end();
+    }else{
+        res.send("disponivel");
+        res.end();
+    }
+});
+
+server.post('/verificar-email', async (req, res) => {
+    
+    const {email} = req.body;
+    const resBusca = await User.verificaEmail(email);
+
+    if(resBusca && resBusca.email == email){
+        res.send("indisponivel");
+        res.end();
+    }else{
+        res.send("disponivel");
+        res.end();
+    }
+});
+
+
+server.get('/busca', async (req, res) => {
+
+    const cookies = parseCookies(req.headers.cookie);
+    if(cookies && cookies.session_user){
+        res.render('busca-veiculo',{resLabelAdmin: cookies.session_user});
+
+	}else{
+		res.render('login-usuario', {resLogin: "Faça login para buscar veículos."});
+	}
 });
 
 server.get('/cadastrar-veiculo', async (req, res) => {
@@ -81,15 +150,7 @@ server.get('/cadastrar-veiculo', async (req, res) => {
     const resGravar = await Fipe.find('CADASTRAR_VEICULO', dados);
 
     res.send(resGravar);
-});
-
-server.get('/busca', (req, res) => {
-    res.render('busca', (err,data) => {
-        if (err) {
-            throw err;
-        }
-        res.end(data);
-    });
+    res.end();
 });
 
 server.get('/fipe/tipo', async (req, res) => {
@@ -102,6 +163,7 @@ server.get('/fipe/tipo', async (req, res) => {
         dados.push({value});
     }
     res.send({dados});
+    res.end();
 });
 
 server.get('/fipe/tipo/marca', async (req, res) => {
@@ -116,6 +178,7 @@ server.get('/fipe/tipo/marca', async (req, res) => {
     }
 
     res.send({dados});
+    res.end();
 });
 
 server.get('/fipe/tipo/marca/modelo', async (req, res) => {
@@ -130,6 +193,7 @@ server.get('/fipe/tipo/marca/modelo', async (req, res) => {
         dados.push({value});
     }
     res.send({dados});
+    res.end();
 });
 
 server.get('/fipe/tipo/marca/modelo/ano', async (req, res) => {
@@ -141,6 +205,7 @@ server.get('/fipe/tipo/marca/modelo/ano', async (req, res) => {
     const resBusca = await Fipe.find('ANO' ,tipo, marca, modelo, ano);
     
     res.send(resBusca[0]);
+    res.end();
 });
 
 server.get('/listar-marcas', async (req, res) => {
@@ -153,15 +218,25 @@ server.get('/listar-marcas', async (req, res) => {
         dados.push({value});
     }
     res.send({dados});
+    res.end();
 });
 
-server.get('/admin/cadastro-veiculo', (req, res) => {
-    res.render('cadastroVeiculo', (err,data) => {
-        if (err) {
-            throw err;
-        }
-        res.end(data);
-    });
+
+server.get('/ajuda-sobre' , async (req, res) => {
+	
+    res.render('ajuda-sobre');
+	
+});
+
+server.get('/ajuda' , async (req, res) => {
+
+    res.render('ajuda-sobre');
+	
+});
+
+server.get('/cadastro-usuario', async (req, res) => {
+    
+    res.render('cadastro-usuario');
 });
 
 server.listen(process.env.PORT || 3000, () =>{
