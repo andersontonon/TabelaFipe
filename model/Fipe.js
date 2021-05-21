@@ -1,9 +1,10 @@
 const MongoClient = require("mongodb").MongoClient;
+const addressMongo = 'mongodb+srv://deploy:deploy123456@cluster0.rg3q5.mongodb.net/tabelafipe';
 
 module.exports = class Fipe{
     static async find (busca, tipo, marca, modelo, ano){
 
-        const conn = await MongoClient.connect(process.env.MONGO_URL);
+        const conn = await MongoClient.connect(addressMongo);
         const db = conn.db();
 
         switch(busca){
@@ -58,15 +59,5 @@ module.exports = class Fipe{
             default:
                 return await db.collection('tabelafipe').find().toArray();
         }
-    }
-    static async login (email, senha){
-
-        const conn = await MongoClient.connect(process.env.MONGO_URL);
-        const db = conn.db();
-
-        console.log('LOGIN:');
-        return await 
-            db.collection('users')
-            .findOne({email: email, senha: senha});
-    }    
+    }  
 }
