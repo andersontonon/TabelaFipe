@@ -35,6 +35,19 @@ server.get('/', async (req, res) =>{
 	}
 });
 
+server.post('/verificar-login', async (req, res) => {
+    const {email, senha} = req.body;
+    const user = await User.logar(email, senha);
+
+    if(!user || user == null){
+        return res.send('rejection');
+    }else if(user.email.length > 4){
+        return res.send('success');
+    }else{
+        return res.send('rejection');
+    }
+});
+
 server.post('/fazer-login', async (req, res) => {
     const {email, senha} = req.body;
     const user = await User.logar(email, senha);
@@ -52,6 +65,7 @@ server.post('/fazer-login', async (req, res) => {
     }
 });
 
+
 server.get('/admin/cadastro-veiculo', async (req, res) => {
 
     const cookies = parseCookies(req.headers.cookie);
@@ -66,6 +80,14 @@ server.get('/admin/cadastro-veiculo', async (req, res) => {
 
 server.get('/login-usuario', async (req, res) => {
     return res.render('login-usuario');
+
+});
+
+server.post('/login-cadastrado', async (req, res) => {
+
+    const {email} = req.body;
+    return res.render('login-usuario', {email:email});
+    
 });
 
 server.post('/cadastrar-login', async (req, res) => {
@@ -147,7 +169,7 @@ server.get('/busca', async (req, res) => {
 server.get('/cadastrar-veiculo', async (req, res) => {
     
     const dados = JSON.parse(req.query.dados);
-    const resGravar = await Fipe.find('CADASTRAR_VEICULO', dados);
+    const resGravar = await Fipe.cadastrarVeiculo(dados);
 
     res.send(resGravar);
     res.end();
@@ -156,7 +178,7 @@ server.get('/cadastrar-veiculo', async (req, res) => {
 server.get('/fipe/tipo', async (req, res) => {
     
     const tipo = req.query.tipo;
-    const resBusca = await Fipe.find('TIPO', tipo);
+    const resBusca = await Fipe.buscar('TIPO', tipo);
     var dados = [];
 
     for(let value of resBusca){
@@ -170,7 +192,7 @@ server.get('/fipe/tipo/marca', async (req, res) => {
 
     const tipo = req.query.tipo;
     const marca = req.query.marca;
-    const resBusca = await Fipe.find('MARCA' ,tipo, marca);
+    const resBusca = await Fipe.buscar('MARCA' ,tipo, marca);
     var dados = [];
 
     for(let value of resBusca){
@@ -186,7 +208,7 @@ server.get('/fipe/tipo/marca/modelo', async (req, res) => {
     const tipo = req.query.tipo;
     const marca = req.query.marca;
     const modelo = req.query.modelo;
-    const resBusca = await Fipe.find('MODELO' ,tipo, marca, modelo);
+    const resBusca = await Fipe.buscar('MODELO' ,tipo, marca, modelo);
     var dados = [];
 
     for(let value of resBusca){
@@ -202,7 +224,7 @@ server.get('/fipe/tipo/marca/modelo/ano', async (req, res) => {
     const marca = req.query.marca;
     const modelo = req.query.modelo;
     const ano = req.query.ano;
-    const resBusca = await Fipe.find('ANO' ,tipo, marca, modelo, ano);
+    const resBusca = await Fipe.buscar('ANO' ,tipo, marca, modelo, ano);
     
     res.send(resBusca[0]);
     res.end();
@@ -210,8 +232,7 @@ server.get('/fipe/tipo/marca/modelo/ano', async (req, res) => {
 
 server.get('/listar-marcas', async (req, res) => {
     
-    const tipo = req.query.tipo;
-    const resBusca = await Fipe.find('LISTAR_MARCAS', tipo);
+    const resBusca = await Fipe.listarMarcas();
     var dados = []; 
 
     for(let value of resBusca){
