@@ -1,5 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
-const addressMongo = 'mongodb+srv://deploy:deploy123456@cluster0.rg3q5.mongodb.net/tabelafipe';
+const addressMongo = process.env.MONGO_URL;
 
 module.exports = class User{
 
