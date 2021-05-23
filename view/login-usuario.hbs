@@ -27,7 +27,7 @@
             var senha = document.getElementById("senha").value;
 
             const settings = {
-                "url": "/login-usuario",
+                "url": "/verificar-login",
                 "method": "POST",
                 data: {email: email, senha: senha}
             };
@@ -40,11 +40,22 @@
                 }else{
                     $.ajax(settings).done(function (response) {
                         if(response == "success"){
-                            //console.log(response);
+                            console.log(response);
+                            document.getElementById("resLogin").style.color ="#12ff12";
+                            document.getElementById("resLogin").innerHTML = "Seu login foi realizado com sucesso.";
+                            tempLimparresLogin(4000);
+                            document.getElementById("form-login").submit();
+
                         }else if(response == "rejection"){
-                            //console.log(response);
+                            console.log(response);
+                            document.getElementById("resLogin").innerHTML = "E-mail e/ou senha inválidos.";
+                            tempLimparresLogin(4000);
+
                         }else{
-                            //console.log(response);
+                            console.log(response);
+                            document.getElementById("resLogin").innerHTML = "Erro inesperado!!!";
+                            tempLimparresLogin(4000);
+
                         }
                     });
                 }
@@ -67,14 +78,18 @@
                 document.getElementById("span-email").innerHTML = "";
                 emailVerificado = true;
             }else{
+                tempLimparresLogin(4000);
                 document.getElementById("span-email").innerHTML = "E-mail digitado nao é um e um e-mail";
                 document.getElementById("span-email").style.color="#f00000";
                 emailVerificado = false;
             }
         }
-        setTimeout(function() {
-            document.getElementById("resLogin").innerHTML = "";
-        },5000); 
+        function tempLimparresLogin(temp){
+            setTimeout(function() {
+                document.getElementById("resLogin").innerHTML = "";
+            },temp); 
+        }
+        
 
     </script>
     <body class="body">
@@ -99,7 +114,7 @@
             </div>
 
             <div class="formulario-fipe-login">
-                <form action="/fazer-login" method="post">
+                <form action="/fazer-login" method="post" id="form-login">
                     <div class="form-group">
                         <label class="text-fipe-cadastro" for="email">E-mail:</label>
                         <input name="email" type="email" placeholder="seunome@email.com" class="form-control form-control-lg input-lg" value="{{email}}" onkeyup="verificaEmail();" id="email"  required>
@@ -119,10 +134,8 @@
                     </div>
 
                     <div class="div-botao-fipe">
-                        <a href="/cadastro-usuario">
-                            <button id="cadastrar" type="button" class="link-modal btn-lg " style="cursor:pointer;">Criar conta</button>
-                        </a>
-                        <button id="entrar" type="submit" class="link-modal btn-lg" onclick="faserLogin();" style="cursor:pointer;">Entrar</button>
+                        <button id="cadastrar" href="/cadastro-usuario" type="button" class="link-modal btn-lg " style="cursor:pointer;">Criar conta</button>
+                        <button id="entrar" type="button" class="link-modal btn-lg" onclick="faserLogin();" style="cursor:pointer;">Entrar</button>
                     </div>                   
                 </form>
                 <div class="span-erro">
