@@ -4,6 +4,7 @@ const server = express();
 const bodyParser = require('body-parser');
 const Fipe = require('../model/Fipe.js');
 const User = require('../model/User.js');
+const session = require('express-session');
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.set('view engine', 'hbs');
@@ -20,15 +21,24 @@ const parseCookies = (cookie = '') =>
             return acc;
         }, {});
 
-const session = {};
+server.use(session({
+    name: 'session',
+    secret: 'a1b2c3d4e5f6g7h8i9j0',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}))
 
 server.get('/', async (req, res) =>{
-    const cookies = parseCookies(req.headers.cookie);
-    if(cookies && cookies.session_user && cookies.session_user == "Anderson"){
-        res.render('cadastro-veiculo',{resLabelAdmin: cookies.session_user});
 
-	}else if(cookies && cookies.session_user){
-        res.render('busca-veiculo',{resLabelAdmin: cookies.session_user});
+    const cookies = parseCookies(req.headers.cookie);
+    const session = req.session;
+
+    if(cookies.email && cookies.email == "tabela@fipe.com" && session.email && session.email == "tabela@fipe.com"){
+        res.render('cadastro-veiculo',{resLabelAdmin: cookies.email});
+
+	}else if(cookies.email && session.email){
+        res.render('busca-veiculo',{resLabelAdmin: cookies.email});
 
 	}else{
 		res.render('login-usuario', {resLogin: "Faça login para buscar veículos."});
@@ -56,11 +66,13 @@ server.post('/fazer-login', async (req, res) => {
         return res.render('login-usuario', {resLogin: "E-mail e/ou senha inválidos.", email:email});
         
     }else if(user.email == 'tabela@fipe.com'){
-        res.cookie('session_user', user.email, { maxAge: 900000, httpOnly: true });
+        res.cookie('email', user.email, { maxAge: 900000, httpOnly: true });
+        req.session.email = user.email;
         return res.render('cadastro-veiculo', {resLabelAdmin: user.email});
 
     }else{
-        res.cookie('session_user', user.email, { maxAge: 900000, httpOnly: true });
+        res.cookie('email', user.email, { maxAge: 900000, httpOnly: true });
+        req.session.email = user.email;
         return res.render('busca-veiculo', {resLabelAdmin: user.email});
     }
 });
@@ -69,9 +81,10 @@ server.post('/fazer-login', async (req, res) => {
 server.get('/admin/cadastro-veiculo', async (req, res) => {
 
     const cookies = parseCookies(req.headers.cookie);
+    const session = req.session;
 
-    if(cookies && cookies.session_user && cookies.session_user == "tabela@fipe.com"){
-        res.render('cadastro-veiculo',{resLabelAdmin: cookies.session_user});
+    if(cookies.email && cookies.email == "tabela@fipe.com" && session.email && session.email == "tabela@fipe.com"){
+        res.render('cadastro-veiculo',{resLabelAdmin: cookies.email});
 
 	}else{
 		res.render('login-usuario', {resLogin: "Faça login como admin para cadastrar veículos."});
@@ -117,7 +130,7 @@ server.get('/cadastrar-login', async (req, res) => {
 });
 
 server.post('/logout', async (req, res) =>{
-    res.clearCookie("session_user");
+    res.clearCookie("email");
     return res.redirect('/');
 
 });
@@ -158,8 +171,10 @@ server.post('/verificar-email', async (req, res) => {
 server.get('/busca', async (req, res) => {
 
     const cookies = parseCookies(req.headers.cookie);
-    if(cookies && cookies.session_user){
-        res.render('busca-veiculo',{resLabelAdmin: cookies.session_user});
+    const session = req.session;
+    
+    if(cookies.email && session.email){
+        res.render('busca-veiculo',{resLabelAdmin: cookies.email});
 
 	}else{
 		res.render('login-usuario', {resLogin: "Faça login para buscar veículos."});
